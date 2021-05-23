@@ -1,0 +1,24 @@
+{
+  "name": "api-catalogo",
+  "version": "1.0.0",
+  "description": "Api de catálogo Obox",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon index.js"
+  },
+  "author": "We Obox - Avelino Figueira",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.17.1",
+    "instagram-private-api": "^1.43.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.15",
+    "nodemailer": "^6.4.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
