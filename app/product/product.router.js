@@ -13,6 +13,7 @@ const multipart = require("connect-multiparty");
 const productoMiddleware = multipart({ uploadDir: "./assets/productos" });
 
 // Router producto
+//routerProduct.post("/save", security.verify,productoController.save);
 routerProduct.post("/save", security.verify,productoController.save);
 routerProduct.get("/get/:id?", productoController.get);
 routerProduct.get("/list",productoController.getList);

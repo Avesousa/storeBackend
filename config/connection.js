@@ -1,16 +1,17 @@
-const mongo = require('mongoose');
-const serverDB = require('./properties').SERVERDB;
+const mysql = require("mysql");
+const config = require('./properties');
 
-module.exports = () => {
-    mongo.connect(serverDB, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
-    .then(() => console.log(`[${new Date()}] Server database connected on ${serverDB}`))
-    .catch((err) => console.log(`[${new Date()}] Connection has error ${err}`))
+//create connection to the database
+const connection = mysql.createConnection({
+    host: config.HOST,
+    user: config.USER,
+    password: config.PASSWORD,
+    database: config.DATABASE
+});
 
-    process.on('SIGINT', ()=>{
-        mongo.connection.close(() => {
-            console.log(`[${new Date()}] Sever database is disconnected`);
-            process.exit(0);
-        })
-    })
+connection.connect((error) => {
+    if(error) throw error;
+    console.log("Connection to database success");
+});
 
-}
+module.exports = connection;

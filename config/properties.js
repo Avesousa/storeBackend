@@ -1,4 +1,7 @@
 module.exports = {
-    PORT: process.env.PORT || 15800,
-    SERVERDB: 'mongodb://localhost:27017/catalogo'
+    HOST: "localhost",
+    USER: "avesousa",
+    PASSWORD: "26390042Po.",
+    DATABASE: "store",
+    PORT: 3000
 }

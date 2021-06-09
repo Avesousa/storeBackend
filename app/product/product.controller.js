@@ -1,63 +1,34 @@
 "use strict";
 
-const Producto = require("./product.schema");
+const Producto = require("./product.model");
 const resp = require("../../util/response");
 
 const controllerProduct = {
   save: function (req, res) {
-    let producto = new Producto();
     let params = req.body;
+    let productNew = {
+      description : params.description,
+      price : params.price,
+      category : params.category,
+      store: params.store
+    }
 
-    console.log(params);
-    console.log(req.userData)
-
-    producto.description = params.description;
-    producto.price = params.price;
-    producto.category = params.category;
-    producto.store = req.userData.store;
-
-    producto.save((err, producto) => {
-      return resp.start(res, err, producto, [
-        "Error al guardar el producto",
-        "No se ha podido guardar el producto",
-        "ok",
-      ]);
-    });
+    Producto.save(new Producto(productNew),res);
   },
 
   get: function (req, res) {
     var productoId = req.params.id;
-
     if (productoId == null) return resp.undefined(res, "El producto no existe");
-
-    Producto.findById(productoId, (err, producto) => {
-      return resp.start(res, err, producto, [
-        "Error al traer los datos del producto",
-        "El producto no existe",
-        "ok",
-      ]);
-    });
+    Producto.getById(productoId, res);
   },
 
   getList: function (req, res) {
-    Producto.find({ store: req.headers.store }).exec((err, productos) => {
-      return resp.start(res, err, productos, [
-        "Error al traer los datos del producto",
-        "No hay productos disponibles",
-        "ok",
-      ]);
-    });
+    Producto.getAll(req.headers.store,res);
   },
 
   getListLimit: function (req, res) {
     let max = parseInt(req.params.max);
-    Producto.find({ store: req.headers.store }).limit(max).exec((err, productos) => {
-      return resp.start(res, err, productos, [
-        "Error al traer los datos del producto",
-        "No hay productos disponibles",
-        "ok",
-      ]);
-    });
+    Producto.getWhitMax(req.headers.store, max, res);
   },
 
   update: function (req, res) {
@@ -67,28 +38,14 @@ const controllerProduct = {
   },
 
   updateProduct: function (id, body, file, res) {
-    Producto.findByIdAndUpdate(
-      id,
-      body, (err, producto) => {
-        return resp.start(res, err, producto, [
-          file ? "Error al actualizar la imagen del producto" : "Error al actualizar el producto",
-          "No existe el producto",
-          "ok",
-        ]);
-      }
-    );
+    body.id = id;
+    Producto.update(body, file, res);
+    console.log("update product");
   },
 
   delete: function (req, res) {
     let id = req.params.id;
-
-    producto.findByIdAndRemove(id, (err, producto) => {
-      return resp.start(res, err, producto, [
-        "Error a eliminar el producto",
-        "No existe el producto",
-        "ok",
-      ]);
-    });
+    Product.delete(id,res);
   },
 };
 

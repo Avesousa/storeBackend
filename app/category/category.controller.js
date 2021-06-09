@@ -1,78 +1,51 @@
 "use strict";
 
-const Categoria = require("./category.schema");
+const Category = require("./category.model");
 const resp = require("../../util/response");
 
 const controllerCategory = {
   save: function (req, res) {
-    let categoria = new Categoria();
     let params = req.body;
+    if(req.headers.store){
+      let categoryNew = {
+        description : params.description,
+        price : params.price,
+        category : params.category,
+        store: req.headers.store
+      }
+  
+      Category.save(new Category(categoryNew),res);
 
-    categoria.descripcion = params.descripcion;
-    categoria.nombre = params.nombre;
-
-    categoria.save((err, categoria) => {
-      return resp.start(res, err, categoria, [
-        "Error al guardar la categoria",
-        "No se ha podido guardar la categoria",
-        "ok",
-      ]);
-    });
+    }else{
+      resp.error(res,409,resp.STORE_NOT_EXIST,null);
+    }
   },
 
   get: function (req, res) {
     var categoryId = req.params.id;
-
-    if (categoryId == null) return resp.undefined(res, "El categoria no existe");
-
-    Categoria.findById(categoryId, (err, categoria) => {
-      return resp.start(res, err, categoria, [
-        "Error al traer los datos de la categoria",
-        "La categoria no existe",
-        "ok",
-      ]);
-    });
+    if (categoryId == null) return resp.undefined(res, "El Category no existe");
+    Category.getById(csategoryId, res);
   },
 
   getList: function (req, res) {
-    Categoria.find({store:req.userData.store}).exec((err, categorias) => {
-      return resp.start(res, err, categorias, [
-        "Error al traer los datos de la categoria",
-        "No hay categorias disponibles",
-        "ok",
-      ]);
-    });
+    Category.getAll(req.headers.store,res);
   },
 
   update: function (req, res) {
     let id = req.params.id;
     let body = req.body;
-    this.updateCategory(id,body,false,res);
+    controllerProduct.updateCategory(id, body, false, res);
   },
 
-  updateCategory: function(id,body,file,res){
-    Categoria.findByIdAndUpdate(
-      id,
-      body,(err, categoria) => {
-        return resp.start(res, err, categoria, [
-          file ? "Error al actualizar la imagen de la categoria" : "Error al actualizar la categoria",
-          "No existe la categoria",
-          "ok",
-        ]);
-      }
-    );
+  updateCategory: function (id, body, file, res) {
+    body.id = id;
+    console.log(body);
+    Category.update(body, file, res);
   },
 
   delete: function (req, res) {
     let id = req.params.id;
-
-    categoria.findByIdAndRemove(id, (err, categoria) => {
-      return resp.start(res, err, categoria, [
-        "Error al eliminar la categoria",
-        "No existe la categoria",
-        "ok",
-      ]);
-    });
+    Product.delete(id,res);
   },
 };
 

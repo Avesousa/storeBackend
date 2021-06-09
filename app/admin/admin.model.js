@@ -1,32 +1,20 @@
 'use strict'
+const AdminRepository = require("./admin.repository");
+const dao = new AdminRepository();
 
-const mongo = require('mongoose');
-const Schema = mongo.Schema;
-var Admin = new Schema({
-    name: {
-        type: String,
-        trim: true,
+const Admin = function(admin){
+    this.id = admin.id;
+    this.name = admin.name;
+    this.mail = admin.mail;
+    this.password = admin.password;
+    this.store = admin.store;
+}
 
-    },
-    mail: {
-        type: String,
-        required: 'El correo electrónico es requerido',
-        trim: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: 'La contraseña debes ingresarla',
-        trim: true,
-
-    },
-    store: {
-        type: String,
-        trim: true,
-        required: 'La tienda destinada es requerida'
-    }
-},{
-    timestamps: true
-});
+Admin.login = (admin, result) => dao.login(admin, result);
+Admin.create = (admin, result) =>  dao.save(admin,result);
+Admin.getById = (id, result) =>  dao.update(id,result);
+Admin.getAll = (result) => dao.find(result);
+Admin.register = (admin,result) => dao.register(admin,result);
+Admin.update = (admin, result) =>  dao.update(admin,result);
 
 module.exports = Admin;

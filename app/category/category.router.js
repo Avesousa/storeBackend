@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const categoriaController = require("./category.controller");
+const categoryController = require("./category.controller");
 const fileController = require("../file/file.controller");
 const security = require('../../config/security');
 
@@ -10,27 +10,19 @@ const routerCategory = express.Router();
 //Middleware es algo que se ejecuta antes del controlador
 
 const multipart = require("connect-multiparty");
-const almacenIcon = multipart({ uploadDir: "./assets/categorias/icon" });
-const almacenImage = multipart({ uploadDir: "./assets/categorias" });
+const categoryMiddleware = multipart({ uploadDir: "./assets/categorys" });
 
-// Router categoria
-routerCategory.post("/save", security.verify, categoriaController.save);
-routerCategory.get("/get/:id?", security.verify, categoriaController.get);
-routerCategory.get("/list", security.verify, categoriaController.getList);
-routerCategory.put("/update/:id?", security.verify, categoriaController.update);
-routerCategory.delete("/delete/:id?", security.verify, categoriaController.delete);
-
-// Router imagen
+// Router category
+routerCategory.post("/save", security.verify,categoryController.save);
+routerCategory.get("/get/:id?", categoryController.get);
+routerCategory.get("/list",categoryController.getList);
+routerCategory.put("/update/:id?", security.verify, categoryController.update);
+routerCategory.delete("/delete/:id?", security.verify, categoryController.delete);
 routerCategory.post(
   "/save/image/:id",
-  almacenImage,
+  categoryMiddleware,
   fileController.uploadImage
 );
-routerCategory.post(
-  "/save/icon/:id",
-  almacenIcon,
-  fileController.uploadImage
-);
-routerCategory.get("/image/:ext/:sub?/:file",fileController.getImage);
+routerCategory.get("/image/:ext/:file", fileController.getImage);
 
 module.exports = routerCategory;

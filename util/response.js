@@ -2,12 +2,19 @@ const { response } = require("../app");
 
 
 class Response {
+  
+  SAVE_ERROR = 'Ha ocurrido un error al guardar en la tabla';
+  FIND_ERROR = 'Ha ocurrido un error al buscar en la tabla';
+  UPDATE_ERROR = 'Ha ocurrido un error al actualizar la tabla';
+  DELETE_ERROR = 'Ha ocurrido un error al eliminar en la tabla';
 
   SERVER_ERROR = 'Ha ocurrido un error con el servidor';
   LOGIN_ERROR = 'Datos incorrectos';
   REGISTER_ERROR = 'No se puede realiza un registro, ya que están faltando datos';
   DATA_UNDEFINED = 'Data undefined';
   MAIL_EXIST = 'Ese correo ya está registrado en nuestra base de datos';
+  MAIL_NOT_EXIST = 'El correo no se encuentra registrado';
+  STORE_NOT_EXIST = 'Debe contener un código de tienda';
 
   start(res, err, data, message) {
     if (err) return this.error(res, 500, message[0],err);
@@ -32,8 +39,8 @@ class Response {
     });
   }
 
-  authError(res, errorServer, isLogin) {
-    return errorServer ? this.error(res, 500, this.SERVER_ERROR) : this.error(res, 409, (isLogin ? this.LOGIN_ERROR : this.REGISTER_ERROR));
+  authError(res, errorServer, isLogin,error) {
+    return errorServer ? this.error(res, 500, this.SERVER_ERROR,error) : this.error(res, 409, (isLogin ? this.LOGIN_ERROR : this.REGISTER_ERROR, error));
   }
 
 }

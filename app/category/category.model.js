@@ -1,45 +1,22 @@
-const mongo = require('mongoose');
-const Schema = mongo.Schema;
+'use strict'
+const CategoryRepository = require("./category.repository");
+const dao = new CategoryRepository();
 
-const Category = new Schema({
-    descripcion:{
-        type: String,
-        required: true,
-        trim: true
-    },
-    nombre:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
-    icon:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
-    extIcon:{
-        type: String,
-        required: true,
-        trim: true
-    },
-    imagen:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
-    extImagen:{
-        type: String,
-        required: true,
-        trim: true
-    },
-    store:{
-        type: String,
-        required: true,
-        trim: true
-    },
-},{
-    timestamps: true
-});
+const Category = function(category){
+    this.id = category.id;
+    this.description = category.description;
+    this.name = category.name;
+    this.icon = category.imagen;
+    this.exticon = category.ext;
+    this.imagen = category.imagen;
+    this.extimagen = category.ext;
+    this.store = category.store;
+}
+
+Category.save = (category, result) =>  dao.save(category, result);
+Category.getById = (id, result) =>  dao.findById(id, result);
+Category.getAll = (store, result) => dao.findByStore(store, result);
+Category.update = (category, isFile, result) =>  dao.update(category, isFile, result);
+Category.delete = (id, result) => dao.deleteById(id, result);
+
+module.exports = Category;
