@@ -1,0 +1,12 @@
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Cervezas','Cervezas','cervezas','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Fernet','Fernet','fernet','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Ginebra ','Ginebra ','ginebra','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Licor','Licor','licor','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Ron','Ron','ron','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Sidra','Sidra','sidra','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Tequila','Tequila','tequila','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Vodka','Vodka','vodka','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Whisky','Whisky','whisky','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Aperitivos','Aperitivos','aperitivo','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Vinos','Vinos','wine','png',74);
+INSERT INTO category (description,name,icon,exticon,store) VALUES ('Angostura','Angostura','angostura','png',74);
