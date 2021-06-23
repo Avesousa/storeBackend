@@ -15,6 +15,8 @@ const Product = function(product){
     this.imagen = product.imagen;
     this.ext = product.ext;
     this.store = product.store;
+    this.sale = product.sale;
+    this.priceSale = product.priceSale;
 }
 
 Product.save = (product, result) =>  dao.save(product, result);
@@ -23,5 +25,6 @@ Product.getAll = (store, result) => dao.findByStore(store, result);
 Product.getWhitMax = (store, max, result) => dao.findWhitMax(store, max, result);
 Product.update = (product, isFile, result) =>  dao.update(product, isFile, result);
 Product.delete = (id, result) => dao.deleteById(id, result);
+Product.getByCategory = (store,category, result) => dao.findByCategory(store,category,result);
 
 module.exports = Product;

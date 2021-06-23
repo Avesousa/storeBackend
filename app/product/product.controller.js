@@ -13,6 +13,14 @@ const controllerProduct = {
       store: params.store
     }
 
+    if(params.sale){
+      productNew = {
+        ...productNew, 
+        sale : params.sale, 
+        priceSale: params.priceSale
+      }
+    }
+
     Producto.save(new Producto(productNew),res);
   },
 
@@ -24,6 +32,10 @@ const controllerProduct = {
 
   getList: function (req, res) {
     Producto.getAll(req.headers.store,res);
+  },
+
+  getByCategory: function(req,res){
+    Producto.getByCategory(req.headers.store, parseInt(req.params.category),res);
   },
 
   getListLimit: function (req, res) {

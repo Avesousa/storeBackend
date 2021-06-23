@@ -15,6 +15,17 @@ class ProductRepository extends Repository{
         }
     }
 
+    findByCategory(store, category, result){
+        if(store){
+            this.con.query(`${this.sentence.find(this.table)} WHERE store = ${store} AND category = ${category} ORDER BY description`, (err, res) => {
+                return err ? this.response.error(res, 400, `Error [FIND LIMIT MAX] => ${this.response.FIND_ERROR}`, err) :
+                this.response.ok(result, "OK" , res);
+            });
+        }else{
+            this.response.error(res, 409, this.response.STORE_NOT_EXIST, null);
+        }
+    }
+
     update(product, productId, isFile, result){
         product.id = productId;
         con.query(sentence.update(this.table), product, (err,res) => {
