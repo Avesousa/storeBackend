@@ -1,15 +1,18 @@
 "use strict";
 
 var express = require("express");
+var cors = require("cors");
 var bodyParser = require("body-parser");
 
 var app = express();
 
 //files routes
 const routerProduct = require("./app/product/product.router");
-const routerAuth = require('./app/auth-admin/auth.router');
+const routerAuth = require('./app/auth/auth.router');
 const routerCategory = require("./app/category/category.router");
 const routerBrand = require("./app/brands/brands.router");
+const routerZone = require("./app/zone/zone.router");
+
 /*
 const routerSubscription = require("./app/subscription/subscription.router");
 */
@@ -25,6 +28,7 @@ app.all("/*", (req, res, next) => {
   next();
 });
 
+app.use(cors());
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -33,6 +37,8 @@ app.use("/api/productos", routerProduct);
 app.use("/api/auth",routerAuth);
 app.use("/api/categorias", routerCategory);
 app.use("/api/brands", routerBrand);
+app.use("/api/zone", routerZone);
+
 /*
 app.use("/api/subscription", routerSubscription);
 */
