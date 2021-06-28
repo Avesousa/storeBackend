@@ -1,6 +1,7 @@
 'use strict'
-const BrandsRepository = require("./brands.repository");
-const dao = new BrandsRepository();
+const Repository = require("../../util/repository");
+const dao = new Repository();
+dao.table = "brands";
 
 const Brands = function(brand){
     this.id = brand.id;

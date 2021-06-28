@@ -1,5 +1,3 @@
-const { response } = require("../app");
-
 
 class Response {
   
@@ -13,8 +11,11 @@ class Response {
   REGISTER_ERROR = 'No se puede realiza un registro, ya que están faltando datos';
   DATA_UNDEFINED = 'Data undefined';
   MAIL_EXIST = 'Ese correo ya está registrado en nuestra base de datos';
+  MAIL_OR_DOC_EXIST = 'El correo y/o documento ingresado ya existe en nuestra base de datos';
   MAIL_NOT_EXIST = 'El correo no se encuentra registrado';
+  DOC_NOT_EXIST = 'Se necesita el documento para validar';
   STORE_NOT_EXIST = 'Debe contener un código de tienda';
+  MAIL_OR_PASS_NOT_EXIST = 'Ha ocurrido un erorr al querer loguear (faltan algunos datos)';
 
   start(res, err, data, message) {
     if (err) return this.error(res, 500, message[0],err);
@@ -22,12 +23,13 @@ class Response {
     else return this.ok(res, message[2], data);
   }
 
-  error(res, status, message,err) {
+  error(res, status, message,err, data) {
     console.error(`[DETAIL OF ERROR ${new Date()}] => ${err}`);
     console.error(`[RESPONSE ERROR in ${new Date()}] => ${message}`);
     return res.status(status).send({
       message: message,
-      error: status
+      error: status,
+      data: data
     });
   }
 
@@ -40,7 +42,7 @@ class Response {
   }
 
   authError(res, errorServer, isLogin,error) {
-    return errorServer ? this.error(res, 500, this.SERVER_ERROR,error) : this.error(res, 409, (isLogin ? this.LOGIN_ERROR : this.REGISTER_ERROR, error));
+    return errorServer ? this.error(res, 500, this.SERVER_ERROR,error) : this.error(res, 409, (isLogin ? this.LOGIN_ERROR : this.REGISTER_ERROR), error, {login:false});
   }
 
 }

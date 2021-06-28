@@ -8,6 +8,10 @@ class Sentence{
         return `SELECT * FROM ${table}`;
     }
 
+    findDefined(table){
+        return `SELECT * FROM ${table} firts`;
+    }
+
     findById(table){
         return `SELECT * FROM ${table} WHERE id = ?`;
     }

@@ -12,10 +12,11 @@ module.exports = {
         try {
             let token = req.headers.authorization.split(' ')[1];
             let data = jwt.verify(token, secretKey);
-            return resp.ok(res, 'Token', !!(data.id && data.store));
+            data = { ...data, response:true };
+            return resp.ok(res, 'Token', data);
         } catch (error) {
             console.log(`[ERROR ${new Date()}] error => ${error.message}`);
-            return resp.ok(res,`Un error de auntenticación => ${error.message}`,false);
+            return resp.ok(res,`Un error de auntenticación => ${error.message}`,{response:false});
         }
     },
     verify: function (req, res, next) {

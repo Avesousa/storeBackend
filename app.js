@@ -12,9 +12,9 @@ const routerAuth = require('./app/auth/auth.router');
 const routerCategory = require("./app/category/category.router");
 const routerBrand = require("./app/brands/brands.router");
 const routerZone = require("./app/zone/zone.router");
+const routerSubscription = require("./app/subscription/subscription.router");
 
 /*
-const routerSubscription = require("./app/subscription/subscription.router");
 */
 // Configurar cabeceras y cors
 app.all("/*", (req, res, next) => {
@@ -38,9 +38,9 @@ app.use("/api/auth",routerAuth);
 app.use("/api/categorias", routerCategory);
 app.use("/api/brands", routerBrand);
 app.use("/api/zone", routerZone);
+app.use("/api/subscription", routerSubscription);
 
 /*
-app.use("/api/subscription", routerSubscription);
 */
 // export
 

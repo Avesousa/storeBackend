@@ -3,18 +3,21 @@
 const connection = require("../config/connection");
 const sentences = require("./sentence");
 const responses = require("./response"); 
+const securitys = require("../config/security");
 
 class Repository{
     
     con = connection;
     sentence = sentences;
     response = responses;
+    security = securitys;
+    messageOk = "Ok";
     table = "";
     
     save(object, result){
         this.con.query(this.sentence.insertRow(this.table), object, (err,res) =>{
             return err ? this.response.error(result, 400, `Error [SAVE] => ${this.response.SAVE_ERROR}`, err) :
-            this.response.ok(result, "OK" ,{ ...object });
+            this.response.ok(result, this.messageOk ,{ ...object });
         });
     }
 
