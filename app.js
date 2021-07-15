@@ -2,7 +2,6 @@
 
 var express = require("express");
 var cors = require("cors");
-var bodyParser = require("body-parser");
 
 var app = express();
 
@@ -13,6 +12,7 @@ const routerCategory = require("./app/category/category.router");
 const routerBrand = require("./app/brands/brands.router");
 const routerZone = require("./app/zone/zone.router");
 const routerSubscription = require("./app/subscription/subscription.router");
+const routerOrder = require("./app/order/order.router");
 
 /*
 */
@@ -30,8 +30,8 @@ app.all("/*", (req, res, next) => {
 
 app.use(cors());
 // middlewares
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use("/api/productos", routerProduct);
 app.use("/api/auth",routerAuth);
@@ -39,6 +39,7 @@ app.use("/api/categorias", routerCategory);
 app.use("/api/brands", routerBrand);
 app.use("/api/zone", routerZone);
 app.use("/api/subscription", routerSubscription);
+app.use("/api/order", routerOrder);
 
 /*
 */

@@ -50,9 +50,11 @@ const controllerProduct = {
   },
 
   updateProduct: function (id, body, file, res) {
-    body.id = id;
-    Producto.update(body, file, res);
-    console.log("update product");
+    
+    Producto.update({
+      id,
+      ...body
+    }, file, res);
   },
 
   delete: function (req, res) {

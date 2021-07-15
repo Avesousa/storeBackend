@@ -6,6 +6,7 @@ routerAuth.get('/verify', auth.verify);
 
 routerAuth.post('/register', auth.registerUser);
 routerAuth.post('/login', auth.loginUser);
+routerAuth.put('/update', auth.updateUser);
 
 routerAuth.post('admin/register', auth.registerAdmin);
 routerAuth.post('admin/login', auth.loginAdmin);

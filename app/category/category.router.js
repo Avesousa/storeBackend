@@ -13,10 +13,11 @@ const multipart = require("connect-multiparty");
 const categoryMiddleware = multipart({ uploadDir: "./assets/categorys" });
 
 // Router category
-routerCategory.post("/save", security.verify,categoryController.save);
+//security.verify
+routerCategory.post("/save",categoryController.save);
 routerCategory.get("/get/:id?", categoryController.get);
 routerCategory.get("/list",categoryController.getList);
-routerCategory.put("/update/:id?", security.verify, categoryController.update);
+routerCategory.put("/:id?", categoryController.update);
 routerCategory.delete("/delete/:id?", security.verify, categoryController.delete);
 routerCategory.post(
   "/save/image/:id",

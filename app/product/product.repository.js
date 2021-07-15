@@ -26,12 +26,13 @@ class ProductRepository extends Repository{
         }
     }
 
-    update(product, productId, isFile, result){
-        product.id = productId;
-        con.query(this.sentence.update(this.table), product, (err,res) => {
+    update(product, isFile, result){
+        this.con.query(`${this.sentence.update(this.table)}${product.id}`, product, (err,res) => {
             return err ? 
-            this.response.error(res, 400, isFile ? `Error [ARCHIVO DE IMAGENES] => ${this.response.DELETE_ERROR}` : `Error [PRODUCTO] => ${this.response.UPDATE_ERROR}`, err) :
-            this.response.ok(result, "OK" , res);
+            this.response.error(result, 400, isFile ? `Error [ARCHIVO DE IMAGENES] => ${this.response.DELETE_ERROR}` : `Error [PRODUCTO] => ${this.response.UPDATE_ERROR}`, err) :
+            this.response.ok(result, "OK" , {
+                ...product,
+                ...res});
         });
     }
 }

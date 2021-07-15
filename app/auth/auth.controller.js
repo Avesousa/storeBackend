@@ -24,27 +24,49 @@ const controllerAuth = {
             Admin.register(admin,res);
 
         } catch (error) {
-            Response.error(res,400,Response.REGISTER_ERROR,error);
+            Response.error(res,500,Response.REGISTER_ERROR,error);
         }
 
+    },
+
+    updateUser: function(req, res){
+        try {
+            let user = {
+                id: req.body.id,
+                store: req.headers.store,
+                street: req.body.street,
+                number: req.body.number,
+                zone: req.body.zone.id
+            }
+
+            if(req.body.password){
+                user = {
+                    ...user,
+                    password: security.passwordConvert(req.body.password)
+                }
+            }
+
+            User.update(user,res);
+        } catch (error) {
+            Response.error(res,400,Response.UPDATE_ERROR,error);
+        }
     },
 
     registerUser: function(req,res){
         try {
             let user = {
-                id: req.body.id,
                 name: req.body.name,
                 mail: req.body.mail,
                 doc: req.body.doc,
                 password: security.passwordConvert(req.body.password),
                 store: req.headers.store,
                 street: req.body.street,
-                number: req.body.number,
+                number:   req.body.number,
                 zone: req.body.zone.id
             }
             User.register(user,res);
         } catch (error) {
-            Response.error(res,400,Response.REGISTER_ERROR,error);
+            Response.error(res,500,Response.REGISTER_ERROR,error);
         }
     },
 

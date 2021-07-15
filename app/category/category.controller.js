@@ -9,8 +9,7 @@ const controllerCategory = {
     if(req.headers.store){
       let categoryNew = {
         description : params.description,
-        price : params.price,
-        category : params.category,
+        name: params.name,
         store: req.headers.store
       }
   
@@ -34,12 +33,11 @@ const controllerCategory = {
   update: function (req, res) {
     let id = req.params.id;
     let body = req.body;
-    controllerProduct.updateCategory(id, body, false, res);
+    controllerCategory.updateCategory(id, body, false, res);
   },
 
   updateCategory: function (id, body, file, res) {
     body.id = id;
-    console.log(body);
     Category.update(body, file, res);
   },
 

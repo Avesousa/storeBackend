@@ -17,6 +17,7 @@ class RepositoryAuth extends Repository{
             this.con.query(sql, user, (err,res) => { 
                 if(res.length == 0){
                     this.con.query(this.sentence.insertRow(this.table),user,(err,res) =>{
+                        user.id = res.insertId;
                         if(err) return this.response.authError(result,true,false);
                         else if(!res) return this.response.authError(result,false,false);
                         else {
@@ -65,6 +66,27 @@ class RepositoryAuth extends Repository{
             });
         }else{
             return this.response.error(result,409,this.response.MAIL_OR_PASS_NOT_EXIST,null);
+        }
+    }
+
+    update(object,result){
+        if(object.id){
+            this.con.query(`${this.sentence.update(this.table)}${object.id}`, object, (err,res) => {
+                if(err){
+                    return this.response.error(result, 400, `Error [UPDATE] => ${this.response.UPDATE_ERROR}`, err)
+                }else{
+                    let sql = this.sentence.findById(this.table);
+                    this.con.query(sql, object.id, (err,resTwo) => {
+                        this.addUserSecurity(resTwo[0],() => {
+                            console.info("[Register] => success");
+                            let token = this.security.register(this.userSecurity);
+                            return this.response.ok(result,'ok',this.getResponse(token));
+                        });
+                    })
+                }
+            });
+        }else{
+            return this.response.error(result, 409, "Hace falta el id para actualizar", null);
         }
     }
 

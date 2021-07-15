@@ -52,10 +52,10 @@ class Repository{
     }
 
     update(object, result){
-        if(object.id != null && object.id != undefined){
-            this.con.query(this.sentence.update(this.table), object, (err,res) => {
+        if(object.id){
+            this.con.query(`${this.sentence.update(this.table)}${object.id}`, object, (err,res) => {
                 return err ? this.response.error(res, 400, `Error [UPDATE] => ${this.response.UPDATE_ERROR}`, err) :
-                this.response.ok(result, "OK" , res);
+                this.response.ok(result, "OK" , object);
             });
         }else{
             return this.response.error(result, 409, "Hace falta el id para actualizar", null);
