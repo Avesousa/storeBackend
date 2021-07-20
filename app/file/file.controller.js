@@ -24,7 +24,7 @@ const controllerFile = {
         console.log(`Save image in ${type}`);
         if (req.files) {
             let path = req.files.image.path;
-            let nameWithExt = (path.split("\\")[2]).split(".");
+            let nameWithExt = (path.split("\/")[2]).split(".");
             let name = nameWithExt[0];
             let ext = nameWithExt[1];
 

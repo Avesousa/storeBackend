@@ -15,7 +15,7 @@ class RepositoryAuth extends Repository{
         let sql = this.sentence.find(this.table) + this.getCondition();
         if(this.validation){
             this.con.query(sql, user, (err,res) => { 
-                if(res.length == 0){
+                if(res || res.length == 0){
                     this.con.query(this.sentence.insertRow(this.table),user,(err,res) =>{
                         user.id = res.insertId;
                         if(err) return this.response.authError(result,true,false);

@@ -1,6 +1,6 @@
 "use strict";
 
-const {Order, OrderCreationBody} = require("./models/order");
+const OrderCreationBody = require("./models/order");
 
 const controllerOrder = {
   save: function (req, res) {
@@ -8,8 +8,10 @@ const controllerOrder = {
     let order = {
       products : params.products,
       user : params.user,
-      store: params.store
+      store: req.headers.store
     }
+
+    console.log("ControllerOrder::save =>", order);
 
     OrderCreationBody.save(new OrderCreationBody(order),res);
   },

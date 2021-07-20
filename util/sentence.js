@@ -5,7 +5,7 @@ class Sentence{
     }
 
     insertRows(table, params){
-        return `INSERT INTO ${table} (${params}) VALUES ?`
+        return `INSERT INTO ${table} (${params}) VALUES (?)`
     }
 
     find(table){

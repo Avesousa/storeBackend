@@ -1,6 +1,6 @@
 'use strict'
-const Repository = require("../../../util/repository");
-const dao = new Repository();
+const OrderRepository = require("../order.repository");
+const dao = new OrderRepository();
 dao.table = "order";
 
 const Order = function(order){
@@ -18,9 +18,9 @@ const OrderCreationBody = function(order){
     this.store = order.store;
 }
 
-Order.save = (order, result) =>  dao.save(order, result);
-Order.getAll = (store, result) => dao.findByStore(store, result);
-Order.update = (order, isFile, result) =>  dao.update(order, isFile, result);
-Order.delete = (id, result) => dao.deleteById(id, result);
+OrderCreationBody.save = (order, result) =>  dao.save(order, result);
+OrderCreationBody.getAll = (store, result) => dao.findByStore(store, result);
+OrderCreationBody.update = (order, isFile, result) =>  dao.update(order, isFile, result);
+OrderCreationBody.delete = (id, result) => dao.deleteById(id, result);
 
-module.exports = [Order, OrderCreationBody];
+module.exports = OrderCreationBody;

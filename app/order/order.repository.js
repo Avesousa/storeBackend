@@ -7,28 +7,33 @@ class OrderRepository extends Repository{
 
     save(order, result){
 
-        let orderNew = {
-            user_id: order.user.id,
-            zone_id: order.user.zone.id,
-            zone_price: order.user.zone.price,
-            state: 1,
-            store: order.store   
-        }
+        let queryInsertionOrder = this.makeQueryInsert(order);
 
-        let queryInsertionOrder = this.sentence.insertRow(this.table);
-        let queryInsertionProduct = this.sentence.insertRows(this.table_product, "order_id, product_id, product_total, product_quantity, state");
+        this.con.query(queryInsertionOrder, (err, res) => {
+            
+            if(err){
+                return this.response.error(result, 400, `ORDER::REPOSITORY::Error [save] => ${this.response.SAVE_ERROR}`, err);
+            }else if(res.insertId){
+                
+                let idOrder = res.insertId;
+                console.log("ORDER::REPOSITORY::save Product order - ID ORDER -  => ",idOrder);
+                this.con.query(this.makeQueryInsertProduct(order.products, idOrder), (err, res) => {
+                    if(err){
+                        console.log("ORDER::RESPOSITORY::PRODUCT_ORDER::Error [save] =>",err);
+                        return this.response.error(result, 400, `Error: ${this.response.SAVE_ERROR}`);
+                    }else{
+                       return this.response.ok(result, "OK" , 
+                        {
+                            order: idOrder,
+                            ...res
+                        });
+                    }
+                });
 
-        this.con.query(queryInsertionOrder, orderNew, (err, res) => {
-            let orderId = res.insertId;
-            return err ? this.response.error(result, 400, `Error [FIND] => ${this.response.SAVE_ERROR}`, err) :
-            ((orderId) ? (
-                this.con.query(queryInsertionProduct, this.getProductsId(order.products, orderid), (err, res) => {
-                    return err ? this.response.error(result, 400, `Error [FIND] => ${this.response.FIND_ERROR}`, err) :
-                    this.response.ok(result, "OK" , res);
-            })
-            ) :
-            this.response.error(result, 409, `No se encontró resultado`, null));
-        })
+            }else{
+               return this.response.error(result, 409, `No se encontró resultado`, null);
+            }
+        });
 
     }
 
@@ -42,11 +47,29 @@ class OrderRepository extends Repository{
     }
 
 
-    getProductsId(products, orderId){
-        return products.map( (product) => {
-            [orderId, product.id, product.totalBuy, product.quantityBuy,1]
+    makeQueryInsertProduct(products, idOrder){
+
+        let query = 'INSERT INTO store.productorder (`order`, product, total, quantity, state) VALUES';
+        let firtsFlag = true;
+        products.forEach( (product) => {
+            query += `${firtsFlag ? '' : ','} (${idOrder}, ${product.id}, ${product.totalBuy}, ${product.quantyBuy},1)`;
+            firtsFlag = false;
         } );
+        console.log('Query of product insert => ', query);
+        return query;
     }
+
+
+    makeQueryInsert(order){
+        let ob = {
+            user:order.user.id,
+            zone: order.user.zone.id,
+            price:order.user.zone.price,
+            store: parseInt(order.store)
+        }
+        return `INSERT INTO store.order(user,zone,pricezone,date,state,store) VALUES(${ob.user},${ob.zone},${ob.price},DEFAULT,1,${ob.store})`;
+    }
+
 }
 
 module.exports = OrderRepository;
