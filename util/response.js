@@ -45,6 +45,13 @@ class Response {
     return errorServer ? this.error(res, 500, this.SERVER_ERROR,error) : this.error(res, 409, (isLogin ? this.LOGIN_ERROR : this.REGISTER_ERROR), error, {login:false});
   }
 
+  okData(res,data){
+    console.info(`[RESPONSE SUCCESS in ${new Date()}] =>`,data);
+    return res.status(200).send({
+      ...data
+    });
+  }
+
 }
 
 module.exports = new Response();

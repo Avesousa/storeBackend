@@ -4,6 +4,10 @@ class Sentence{
         return `INSERT INTO ${table} SET ?`;
     }
 
+    insertRows(table, params){
+        return `INSERT INTO ${table} (${params}) VALUES (?)`
+    }
+
     find(table){
         return `SELECT * FROM ${table}`;
     }
@@ -25,7 +29,7 @@ class Sentence{
     }
 
     update(table){
-        return `UPDATE ${table} SET ? WHERE id = :id`;
+        return `UPDATE ${table} SET ? WHERE id = `;
     }
 }
 

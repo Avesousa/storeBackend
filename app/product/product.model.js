@@ -26,5 +26,8 @@ Product.getWhitMax = (store, max, result) => dao.findWhitMax(store, max, result)
 Product.update = (product, isFile, result) =>  dao.update(product, isFile, result);
 Product.delete = (id, result) => dao.deleteById(id, result);
 Product.getByCategory = (store,category, result) => dao.findByCategory(store,category,result);
+Product.getListStand = (store, max, result) => {
+    dao.findStand(store, max, result)
+};
 
 module.exports = Product;

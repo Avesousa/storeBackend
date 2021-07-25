@@ -1,0 +1,10 @@
+DROP TABLE store.order;
+CREATE TABLE `store`.`order` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user` INT NULL,
+  `zone` INT NULL,
+  `pricezone` DOUBLE NULL,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` INT NULL,
+  `store` INT NULL,
+  PRIMARY KEY (`id`));

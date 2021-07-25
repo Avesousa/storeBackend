@@ -5,9 +5,7 @@ const brand = require("../brands/brands.controller");
 const resp = require("../../util/response");
 
 function definirTipo(id, data, type, response) {
-    console.log(id);
-    console.log(data);
-    console.log(type);
+    console.log("FILE::CONTROLLER::DefinirTipo => ", id, type, data);
     switch (type) {
         case 'productos':
             return producto.updateProduct(id, data, true, response);
@@ -21,11 +19,12 @@ function definirTipo(id, data, type, response) {
 const controllerFile = {
     uploadImage: function (req, res) {
         let id = req.params.id;
-        let type = req.baseUrl.slice(5);
+        let 
+        type = req.baseUrl.slice(5);
         console.log(`Save image in ${type}`);
         if (req.files) {
             let path = req.files.image.path;
-            let nameWithExt = (path.split("\\")[2]).split(".");
+            let nameWithExt = (path.split("\/")[2]).split(".");
             let name = nameWithExt[0];
             let ext = nameWithExt[1];
 

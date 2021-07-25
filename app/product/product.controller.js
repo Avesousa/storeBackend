@@ -26,12 +26,17 @@ const controllerProduct = {
 
   get: function (req, res) {
     var productoId = req.params.id;
-    if (productoId == null) return resp.undefined(res, "El producto no existe");
+    if (productoId == null) return resp.error(res, 409, "El producto no existe");
     Producto.getById(productoId, res);
   },
 
   getList: function (req, res) {
     Producto.getAll(req.headers.store,res);
+  },
+
+  getListStand: function (req, res){
+    let max = parseInt(req.params.max);
+    Producto.getListStand(req.headers.store,max,res);
   },
 
   getByCategory: function(req,res){
@@ -50,9 +55,11 @@ const controllerProduct = {
   },
 
   updateProduct: function (id, body, file, res) {
-    body.id = id;
-    Producto.update(body, file, res);
-    console.log("update product");
+    
+    Producto.update({
+      id,
+      ...body
+    }, file, res);
   },
 
   delete: function (req, res) {
