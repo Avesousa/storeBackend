@@ -15,8 +15,9 @@ const productoMiddleware = multipart({ uploadDir: "./assets/productos" });
 // Router producto
 //routerProduct.post("/save", security.verify,productoController.save);
 routerProduct.post("/save" ,productoController.save);
-routerProduct.get("/get/:id?", productoController.get);
-routerProduct.get("/list",productoController.getList);
+routerProduct.get("/",productoController.getList);
+routerProduct.get("/:id?", productoController.get);
+routerProduct.get("/list/stand/:max?", productoController.getListStand)
 routerProduct.get("/list/:max",productoController.getListLimit);
 routerProduct.get("/list/category/:category", productoController.getByCategory);
 routerProduct.put("/:id?", productoController.update);
