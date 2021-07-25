@@ -1,7 +1,7 @@
 module.exports = {
     HOST: "localhost",
-    USER: "avesousa",
+    USER: "obox",
     PASSWORD: "26390042Po.",
     DATABASE: "store",
-    PORT: 3000
+    PORT: 15800
 }
